@@ -1,0 +1,55 @@
+{% extends "base.html"%}
+
+{% block content %}
+
+<div class="intro">
+    <h1>Give URL of the text</h1>
+    <div class="page">
+    <form action="/url" id="text-form" method="POST"  class="txt-sum">
+        
+       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+       <input class="url" type="url" name="url_text" id="url" placeholder="Enter URL">
+       <div class="box">
+       
+        <input type="submit" name="sum" id="summarize" value="summarize" class="inputfile inputfile-2">
+        <label for="summarize">
+            <span>Summarize</span>
+        </label>    
+        <input type="submit" name="gen" id="generate" value="generate" class="inputfile inputfile-2">
+        <label for="generate">
+            <span>Generate Questions</span>
+        </label>        
+        </div>  
+    </form>   
+</div>
+
+{% if output_sum%}
+<div id="txt-sum">
+    <h2>Summarized Text</h2>
+    <div>
+        {{summarized_text}}
+    </div>
+    Select Voice: <select id='voiceList'></select> <br><br>
+
+    <input id='txtInput' value="{{summarized_text}}" type = "hidden" /> <br><br>    
+    <button id='btnSpeak' class="btn">Speak!</button>
+</div>
+{%endif%}
+
+{% if output_gen %}
+<div id="txt-gen">
+    <h2>Questions</h2>
+{% for q,a in qa %}
+    <h5 class="q">Q: {{q}}</h5>
+    <p class="a">Ans: {{a}}</p>
+{% endfor %}
+    <!-- <button class="glow-on-hover orange ans-btn" type="button" >Check</button> -->
+</div>
+
+{% endif %}
+
+
+</div>
+   
+
+{% endblock %}

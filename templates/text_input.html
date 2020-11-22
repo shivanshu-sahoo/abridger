@@ -1,0 +1,58 @@
+{% extends "base.html"%}
+
+{% block content %}
+
+<div class="intro">
+    <h1>Input Your text here</h1>
+    <form action="/text" id="text-form" method="POST"  class="txt-sum">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <textarea class='txta' name="raw_text" id="text-area" 
+        min data-min-rows='3' placeholder='Enter Your Text here'
+        oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
+        
+        <div class="box">
+       
+                <input type="submit" name="sum" id="summarize" value="summarize" class="inputfile inputfile-2 txt-sub">
+                <label for="summarize">
+                    <span>Summarize</span>
+                </label>        
+            
+                <input type="submit" name="gen" id="generate" value="generate" class="inputfile inputfile-2 txt-sub">
+                <label for="generate">
+                    <span>Generate Questions</span>
+                </label>
+                  
+        </div>
+    </form>
+
+    {% if output_sum%}
+   <div id="txt-sum">
+      <h2>Summarized Text</h2>
+       <div>
+        {{summarized_text}}
+       </div>
+       Select Voice: <select id='voiceList'></select> <br><br>
+    <input id='txtInput' value="{{summarized_text}}" type="hidden"/> <br><br>    
+    <button id='btnSpeak' class="btn">Speak!</button>
+   </div>
+   
+   {%endif%}
+
+   <form action="/text" method="POST">
+   {% if output_gen %}
+    <div id="txt-gen">
+        <h2>Questions</h2>
+   {% for q,a in qa %}
+        <h5 class="q">Q:{{q}}</h5>
+        <p class="a">Ans: {{a}}</p>
+    {% endfor %}
+    <!-- <button onclick="toggle_visibility('answers')" class="glow-on-hover orange img-btn" type="button" >
+        Show Answers</button> -->
+    </div>
+    
+    {% endif %}
+    </form> 
+    
+</div>
+   
+{% endblock %}

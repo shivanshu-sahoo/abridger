@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    <title>Abridger</title>
+    <meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Roboto&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    
+    <script src="https://kit.fontawesome.com/ee299b1b93.js" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
+
+
+    <script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
+  </head>
+  <body>
+<div class="all">
+<div class="container">
+  <div class="row main-row h-100">
+    <div class="options col-lg-3 col-sm-12">
+    <div class="content">
+      <div class="logo">
+        <img src="{{ url_for('static', filename='favicon-32x32.png') }}" alt="logo">
+        <a href="/"><h1>Abridger</h1></a>      
+      </div>
+      <!-- <h2>Choose an option!</h2> -->
+      <div class="buttons-sp">
+        <div><a href="/image"><button class="btn" type="button" >Choose an Image</button></a></div>
+      <div><a href="/text"><button class="btn" type="button">Input Text</button></a></div>
+      <div><a href="/url"><button class="btn" type="button">Give link for the text</button> </a></div>      
+    </div>
+      <p>
+      Copyright <a href="/">Abridger</a> &#169; 2020
+      </p>
+    </div>   
+  </div>
+  <div class="main col-lg-9 col-sm-12">
+
+    {% block content %}
+    {% endblock %}
+  </div>
+  </div>
+  </div>
+
+</div>
+
+<!-- Local JS -->
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
+    <!-- necessary script to execute jQuery code -->
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+<!-- jQuery validation is not included in the script above, so needs to be explicitly included -->
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<!-- Bootstrap HTML framework -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<!-- Materialize CSS framework -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> 
+
+<script>
+  var txtInput = document.querySelector('#txtInput');
+  var voiceList = document.querySelector('#voiceList');
+  var btnSpeak = document.querySelector('#btnSpeak');
+  var synth = window.speechSynthesis;
+  var voices = [];
+
+  PopulateVoices();
+  if(speechSynthesis !== undefined){
+      speechSynthesis.onvoiceschanged = PopulateVoices;
+  }
+
+  btnSpeak.addEventListener('click', ()=> {
+      var toSpeak = new SpeechSynthesisUtterance(txtInput.value);
+      var selectedVoiceName = voiceList.selectedOptions[0].getAttribute('data-name');
+      voices.forEach((voice)=>{
+          if(voice.name === selectedVoiceName){
+              toSpeak.voice = voice;
+          }
+      });
+      synth.speak(toSpeak);
+  });
+
+  function PopulateVoices(){
+      voices = synth.getVoices();
+      var selectedIndex = voiceList.selectedIndex < 0 ? 0 : voiceList.selectedIndex;
+      voiceList.innerHTML = '';
+      voices.forEach((voice)=>{
+          var listItem = document.createElement('option');
+          listItem.textContent = voice.name;
+          listItem.setAttribute('data-lang', voice.lang);
+          listItem.setAttribute('data-name', voice.name);
+          voiceList.appendChild(listItem);
+      });
+
+      voiceList.selectedIndex = selectedIndex;
+  }
+</script>
+
+</body>
+</html>
