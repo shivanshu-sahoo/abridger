@@ -5,7 +5,7 @@
 
 # What on earth is this ?
 
-“ABRIDGER” aims to provide solutions to various problems we as students face reguarly in this digital age of eduvcation.. 
+“ABRIDGER” aims to provide solutions to various problems we as students face reguarly in this digital age of education.. 
 
 A)In this, we provide an easy interface where students can either provide an image of their books or notes, links to pages of interests or can directly provide an paragraph and our program will provide an summary of the text (with the option of the length of the summary) Which will highly benefit them for reading and last minute revision 
 
